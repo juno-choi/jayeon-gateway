@@ -1,0 +1,20 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+spring:
+  application:  #gateway service 이름름
+    name: gateway-service
+#  cloud:
+#    gateway:  #gateway 설정
+#      routes:
+#        - id: first-service #gateway로 연결될 서비스 이름
+#          uri: http://127.0.0.1:8001/ #gateway로 연결될 서비스 uri
+#          predicates: #gateway로 연결될 서비스의 url 매핑
+#            - Path=/first-service/**
