@@ -8,4 +8,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, httptrace, busrefresh
+        include: health, httptrace, busrefresh, refresh
