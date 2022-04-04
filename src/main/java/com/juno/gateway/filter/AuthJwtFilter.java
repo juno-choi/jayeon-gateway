@@ -52,7 +52,7 @@ public class AuthJwtFilter extends AbstractGatewayFilterFactory<AuthJwtFilter.Co
     private boolean isJwtValid(String jwt) {
         boolean returnValue = true;
 
-        if(jwt.equals("jayeon-test")){
+        if(jwt.trim().equals("jayeon-test")){
             return returnValue;
         }
 
