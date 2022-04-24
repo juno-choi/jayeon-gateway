@@ -43,6 +43,12 @@ public class TokenAuthJwtFilter extends AbstractGatewayFilterFactory<TokenAuthJw
 
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);   //AUTHORIZATION key 값으로 value 가져옴
             String jwt = authorizationHeader.replace("Bearer ", ""); //JWT, OAuth는 Bearer로 붙여서 전송하기로 약속함
+
+            //test 용
+            if(jwt.equals("jayeon-test")){
+                return chain.filter(exchange);
+            }
+
             try{
                 Claims claims = Jwts.parser().setSigningKey(env.getProperty("token.secret"))  //secret key 값을 통해 parse
                         .parseClaimsJws(jwt).getBody();//token의 내용을 가져옴
