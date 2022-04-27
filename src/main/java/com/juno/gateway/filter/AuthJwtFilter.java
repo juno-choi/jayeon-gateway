@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.support.ipresolver.XForwardedRemoteAddressResolver;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.net.InetSocketAddress;
 
 @Component
 @Slf4j
@@ -32,6 +35,10 @@ public class AuthJwtFilter extends AbstractGatewayFilterFactory<AuthJwtFilter.Co
     public GatewayFilter apply(Config config) {
         return ((exchange, chain)->{
             ServerHttpRequest request = exchange.getRequest();
+
+            XForwardedRemoteAddressResolver resolver = XForwardedRemoteAddressResolver.maxTrustedIndex(1);
+            InetSocketAddress socketAddress = resolver.resolve(exchange);
+            log.info("요청 ip = {}", socketAddress.getAddress().getHostAddress());
 
             if(!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)){
                 //헤더에 AUTHORIZATION key 자체가 존재하지 않을 경우
